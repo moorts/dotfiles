@@ -1,3 +1,6 @@
+set nocompatible
+filetype off
+
 call plug#begin('~/.vim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'dracula/vim',{'as':'dracula'}
@@ -5,6 +8,16 @@ Plug 'tpope/vim-commentary'
 Plug 'scrooloose/nerdtree'
 Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
+
+" Vundle for YouCompleteMe
+set rtp+=~/.vim/bundle/Vundle.vim
+
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'ycm-core/YouCompleteMe'
+call vundle#end()            " required
+
+filetype plugin indent on    " required
 
 " Leader key
 let mapleader = ","
