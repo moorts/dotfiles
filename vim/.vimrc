@@ -22,6 +22,9 @@ map <C-l> <C-w>l
 nnoremap <leader>d :bnext<CR>
 nnoremap <leader>x :bdelete<CR>
 
+" Building and/or executing code (Single file)
+nnoremap <leader>r :call Run()<CR>
+
 " CtrlP
 let g:ctrlp_map = '<C-p>'
 nnoremap <C-b> :CtrlBuffer<CR>
@@ -38,3 +41,23 @@ set relativenumber
 let g:airline_powerline_fonts = 1
 
 let g:airline#extensions#tabline#enabled = 1
+
+" Set tabsize
+set expandtab
+autocmd FileType python setlocal shiftwidth=4 tabstop=4 expandtab
+autocmd FileType cpp setlocal shiftwidth=2 tabstop=2 expandtab
+autocmd FileType c setlocal shiftwidth=2 tabstop=2 expandtab
+
+" I use python, c and c++, so thats the two kinds of files i wanna be running
+" from within vim
+function Run()
+let extension = expand('%:e')
+echom extension
+if extension == "py"
+  :!python3 %
+elseif extension == "c"
+  :!gcc -Wall % && ./a.out
+elseif extension == "cpp"
+  :!g++ -Wall % && ./a.out
+endif
+endfunction
