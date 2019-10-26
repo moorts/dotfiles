@@ -1,3 +1,6 @@
+# Package managers:
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
 # Getting stow + unpacking it
 curl http://artfiles.org/gnu.org/stow/stow-latest.tar.gz --output stow-latest.tar.gz
 mkdir stow-latest
@@ -17,3 +20,7 @@ cd ..
 stow vim
 stow zsh
 
+# Installing YouCompleteMe dependencies:
+sudo apt install build-essential cmake python3-dev
+python3 install.py --clang-completer
+python3 install.py --clangd-completer
