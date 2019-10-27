@@ -17,7 +17,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'dracula/vim',{'as':'dracula'}
 Plug 'tpope/vim-commentary'
 Plug 'scrooloose/nerdtree'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'dense-analysis/ale'
+Plug '~/.fzf'
 call plug#end()
 
 " Vundle for YouCompleteMe
@@ -48,10 +49,10 @@ nnoremap <leader>x :bdelete<CR>
 
 " Building and/or executing code (Single file)
 nnoremap <leader>r :call Run()<CR>
+nnoremap <leader>d :call BuildDebugMode()<CR>
 
-" CtrlP
-let g:ctrlp_map = '<C-p>'
-nnoremap <C-b> :CtrlBuffer<CR>
+" FZF Bindings
+nnoremap <leader>f :FZF<CR>
 
 " Color scheme
 syntax on
@@ -83,5 +84,15 @@ elseif extension == "c"
   :!gcc -Wall % && ./a.out
 elseif extension == "cpp"
   :!g++ -Wall % && ./a.out
+endif
+endfunction
+
+function BuildDebugMode()
+let extension = expand('%:e')
+echom extension
+if extension == "c"
+  :!gcc -Wall -c % 
+elseif extension == "cpp"
+  :!g++ -Wall -c %
 endif
 endfunction
