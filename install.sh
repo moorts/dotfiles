@@ -22,5 +22,5 @@ stow zsh
 
 # Installing YouCompleteMe dependencies:
 sudo apt install build-essential cmake python3-dev
-python3 install.py --clang-completer
-python3 install.py --clangd-completer
+# python3 install.py --clang-completer
+# python3 install.py --clangd-completer

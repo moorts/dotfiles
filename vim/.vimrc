@@ -19,6 +19,7 @@ Plug 'tpope/vim-commentary'
 Plug 'scrooloose/nerdtree'
 Plug 'dense-analysis/ale'
 Plug '~/.fzf'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 call plug#end()
 
 " Vundle for YouCompleteMe
@@ -36,12 +37,16 @@ let mapleader = ","
 
 " Keyboard shortcuts
 map <C-n> :NERDTreeToggle<CR>
+nnoremap <leader>t :call CurtineIncSw()<CR>
+nnoremap <space> @q
 
 " Window navigation
 map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
+nnoremap <leader>v :vsplit<CR>
+nnoremap <leader>h :split<CR>
 
 " Buffer navigation
 nnoremap <leader>d :bnext<CR>
