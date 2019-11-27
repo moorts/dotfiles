@@ -28,10 +28,14 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'ycm-core/YouCompleteMe'
+Plugin 'jiangmiao/auto-pairs'
 call vundle#end()            " required
 
 filetype plugin indent on    " required
 
+" Autocompletion settings:
+let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_autoclose_preview_window_after_completion = 1
 " Leader key
 let mapleader = ","
 
@@ -39,6 +43,15 @@ let mapleader = ","
 map <C-n> :NERDTreeToggle<CR>
 nnoremap <leader>t :call CurtineIncSw()<CR>
 nnoremap <space> @q
+
+" ALE stuff
+let g:ale_linters = {
+\   'c': ['clang'],
+\   'c++': ['clang'],
+\   'python': ['autopep8'],
+\}
+
+let g:ale_linters_explicit = 1
 
 " Window navigation
 map <C-h> <C-w>h
@@ -72,11 +85,15 @@ let g:airline_powerline_fonts = 1
 
 let g:airline#extensions#tabline#enabled = 1
 
+
 " Set tabsize
-set expandtab
+set expandtab shiftwidth=4 tabstop=4
 autocmd FileType python setlocal shiftwidth=4 tabstop=4 expandtab
 autocmd FileType cpp setlocal shiftwidth=2 tabstop=2 expandtab
 autocmd FileType c setlocal shiftwidth=2 tabstop=2 expandtab
+
+" Assembler (nasm)
+autocmd FileType asm set ft=nasm
 
 " I use python, c and c++, so thats the two kinds of files i wanna be running
 " from within vim
@@ -101,3 +118,5 @@ elseif extension == "cpp"
   :!g++ -Wall -c %
 endif
 endfunction
+
+set autoindent
