@@ -3,13 +3,9 @@ filetype off
 
 " Install vim-plug if not already installed
 if empty(glob('~/.vim/autoload/plug.vim'))
-
           silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-
               \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-
 endif
 
 call plug#begin('~/.vim/plugged')
@@ -21,15 +17,6 @@ Plug 'dense-analysis/ale'
 Plug '~/.fzf'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 call plug#end()
-
-" Vundle for YouCompleteMe
-set rtp+=~/.vim/bundle/Vundle.vim
-
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'ycm-core/YouCompleteMe'
-Plugin 'jiangmiao/auto-pairs'
-call vundle#end()            " required
 
 filetype plugin indent on    " required
 
