@@ -1,4 +1,4 @@
-call plug#begin('~/AppData/Local/nvim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'joshdick/onedark.vim'
 Plug 'bignimbus/pop-punk.vim'
@@ -9,13 +9,25 @@ Plug 'bling/vim-bufferline'
 Plug 'voldikss/vim-floaterm'
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'liuchengxu/vim-which-key'
+Plug 'jceb/vim-orgmode'
+Plug 'inkarkat/vim-SyntaxRange'
+Plug 'kana/vim-altr'
+Plug 'vim-scripts/utl.vim'
+Plug 'ziglang/zig.vim'
+Plug 'dracula/vim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'vim-airline/vim-airline'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
+let g:airline_powerline_fonts = 1
 set termguicolors
 let ayucolor="light"
 
 syntax on
-colorscheme pop-punk
+colorscheme dracula
 
 set relativenumber
 set number
@@ -28,6 +40,8 @@ call which_key#register('<Space>', "g:which_key_map")
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 set timeoutlen=500
 
+nmap <F2> <Plug>(altr-forward)
+
 " Keyboard shortcuts
 map <C-n> :NERDTreeToggle<CR>
 nnoremap <leader>fp :FloatermNew --name=psh powershell.exe<CR>
@@ -38,7 +52,7 @@ nnoremap <leader>fh :FloatermPrev<CR>
 nnoremap <leader>ft :FloatermToggle<CR>
 nnoremap <leader>fk :FloatermKill<CR>
 
-nnoremap <C-s> :source C:\Users\morit\AppData\Local\nvim\init.vim<CR>
+nnoremap <C-s> :source ~/.config/nvim/init.vim<CR>
 
 " Terminal mode shortcuts
 tnoremap <Esc> <C-\><C-n>
@@ -66,9 +80,9 @@ nnoremap <leader>b8 :b8<CR>
 nnoremap <leader>b9 :b9<CR>
 
 let g:bufferline_echo = 0
-autocmd VimEnter *
-\ let &statusline='%{bufferline#refresh_status()}'
-  \ .bufferline#get_status_string()
+"autocmd VimEnter *
+"\ let &statusline='%{bufferline#refresh_status()}'
+"  \ .bufferline#get_status_string()
 
 
 " Set tabsize
@@ -191,3 +205,46 @@ let g:which_key_map['f'] = {
     \ 'p' : 'floaterm-psh',
     \ 'u' : 'floaterm-wsl',
     \}
+
+map <C-t> :OrgCheckBoxToggle<CR>
+
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>al <Plug>(coc-codeaction-line)
+imap <silent> <C-a> <C-O><Plug>(coc-codeaction-line)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
