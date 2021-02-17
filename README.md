@@ -1,3 +1,8 @@
 # My dotfiles
 
-Repo contains dotfiles for zsh and vim. Additionaly there's a little installer script that installs stow including its dependencies and creates the symlinks.
+Dotfiles.
+
+## Stuff I want to install that are not always in the debian repos
+
+* [exe](https://the.exa.website) - ls replacement
+* [bat](https://github.com/sharkdp/bat) - cat but fancier 
