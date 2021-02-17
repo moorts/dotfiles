@@ -69,6 +69,7 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
+plugins+=(zsh-vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -97,5 +98,13 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias ll="exa -la"
+alias vim=nvim
+alias cat=bat
+alias p="cd /mnt/d/Projects"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+eval `ssh-agent`
+
+export PATH=$PATH:~/.local/bin:/mnt/d/chirp/src:~/squashfs-root/usr/bin:/usr/lib/llvm-10/bin
