@@ -1,26 +1,34 @@
-# Package managers:
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+# Config file locations
 
-# Getting stow + unpacking it
-curl http://artfiles.org/gnu.org/stow/stow-latest.tar.gz --output stow-latest.tar.gz
-mkdir stow-latest
-tar -xvzf stow-latest.tar.gz -C ./stow-latest --strip-components=1
-rm -rf stow-latest.tar.gz
+nvim_config="$HOME/.config/nvim/"
+zsh_config="$HOME/.zshrc"
 
-cd stow-latest
-# Installing dependencies:
-dpkg -l | grep -qw perl || sudo apt-get install perl
-cpan Test::More
-cpan Test::Output
+# All things neovim
+mkdir --parents $nvim_config
+cp ./nvim/init.vim $nvim_config
 
-sh ./configure
-sudo make install
+# Install nvim (this sucks)
+wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+chmod u+x nvim.appimage && ./nvim.appimage --appimage-extract
 
-cd ..
-stow vim
-stow zsh
+# Install nodejs for coc-nvim (autocompletion plugin)
+sudo apt install nodejs
 
-# Installing YouCompleteMe dependencies:
-sudo apt install build-essential cmake python3-dev
-# python3 install.py --clang-completer
-# python3 install.py --clangd-completer
+# Install vim-plug
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+# Install zsh and oh-my-zsh
+
+sudo apt update -y && sudo apt upgrade -y
+sudo apt install curl -y
+sudo apt install zsh -y
+
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+cp ./zsh/.zshrc $zsh_config
+
+# Installing zsh plugins
+git clone https://github.com/jeffreytse/zsh-vi-mode $HOME/.oh-my-zsh/custom/plugins/zsh-vi-mode
+
+source $HOME/.zshrc
+
