@@ -15,6 +15,7 @@ Plug 'kana/vim-altr'
 Plug 'vim-scripts/utl.vim'
 Plug 'ziglang/zig.vim'
 Plug 'dracula/vim'
+Plug 'ayu-theme/ayu-vim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -22,12 +23,14 @@ Plug 'vim-airline/vim-airline'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
+let g:indentLine_setConceal=0
+
 let g:airline_powerline_fonts = 1
 set termguicolors
-let ayucolor="light"
+let ayucolor="mirage"
 
 syntax on
-colorscheme dracula
+colorscheme ayu
 
 set relativenumber
 set number
@@ -84,7 +87,6 @@ let g:bufferline_echo = 0
 "\ let &statusline='%{bufferline#refresh_status()}'
 "  \ .bufferline#get_status_string()
 
-
 " Set tabsize
 
 set expandtab shiftwidth=4 tabstop=4
@@ -97,7 +99,7 @@ let g:indentLine_setColors = 0
 " }}
 
 " Use system clipboard
-set clipboard=unnamedplus
+set clipboard+=unnamedplus
 
 " Replace all
 nnoremap S :%s//g<Left><Left>
@@ -135,7 +137,7 @@ let s:menus.compile = {
     \}
 
 let s:menus.compile.command_candidates = [
-    \ ['Python', '!py %'],
+    \ ['Python', '!python %'],
     \ ['Rust', '!cargo run'],
     \ ['Java', '!java %'],
     \ ['C++', '!g++ % && .\a.exe'],
@@ -155,7 +157,7 @@ nnoremap <leader>bc :Denite -split=floating -prompt=$ buffer<CR>
 nnoremap <leader>df :Denite -split=floating -prompt=$ file/rec<CR>
 nnoremap <leader>dm :Denite -split=floating -prompt=$ menu<CR>
 
-nnoremap <leader>cp :!py %<CR>
+nnoremap <leader>cp :!python %<CR>
 nnoremap <leader>cr :!cargo run<CR>
 nnoremap <leader>cj :!java %<CR>
 nnoremap <leader>cc :!g++ % && .\a.exe<CR>
@@ -248,3 +250,4 @@ imap <silent> <C-a> <C-O><Plug>(coc-codeaction-line)
 nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
+autocmd VimEnter * silent exec "!kill -s SIGWINCH $PPID"

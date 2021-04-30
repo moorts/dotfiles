@@ -1,0 +1,34 @@
+[
+    {
+        "name": "bspwm",
+        "command": "alacritty -e nvim ~/.config/bspwm/bspwmrc"
+    },
+    {
+        "name": "sxhkd",
+        "command": "alacritty -e nvim ~/.config/sxhkd/sxhkdrc"
+    },
+    {
+        "name": "polybar",
+        "command": "alacritty -e nvim ~/.config/polybar/bspwm_config"
+    },
+    {
+        "name": "alacritty",
+        "command": "alacritty -e nvim ~/.config/alacritty/alacritty.yml"
+    },
+    {
+        "name": "dunst",
+        "command": "alacritty -e nvim ~/.config/dunst/dunstrc"
+    },
+    {
+        "name": "rofi",
+        "command": "alacritty -e nvim ~/.config/rofi/config.rasi"
+    },
+    {
+        "name": "config list",
+        "command": "alacritty -e nvim ~/.config/rofi/myr_conf/configs.json"
+    },
+    {
+        "name": "neovim",
+        "command": "alacritty -e nvim ~/.config/nvim/init.vim"
+    }
+]
