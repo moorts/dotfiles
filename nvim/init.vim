@@ -9,10 +9,9 @@ Plug 'bling/vim-bufferline'
 Plug 'voldikss/vim-floaterm'
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'liuchengxu/vim-which-key'
-Plug 'jceb/vim-orgmode'
 Plug 'inkarkat/vim-SyntaxRange'
 Plug 'kana/vim-altr'
-Plug 'vim-scripts/utl.vim'
+"Plug 'vim-scripts/utl.vim'
 Plug 'ziglang/zig.vim'
 Plug 'dracula/vim'
 Plug 'nvim-lua/popup.nvim'
@@ -20,20 +19,39 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'vim-airline/vim-airline'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'vim-airline/vim-airline-themes'
+Plug 'lifepillar/vim-solarized8'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'lervag/vimtex'
 call plug#end()
 
 let g:airline_powerline_fonts = 1
 set termguicolors
-let ayucolor="light"
+let ayucolor="mirage"
+let g:airline_solarized_bg='dark'
+
+let g:vimtex_view_general_viewer = 'zathura'
+let g:vimtex_view_general_options
+    \ = '-reuse-instance -forward-search @tex @line @pdf'
+let g:vimtex_view_general_options_latexmk = '-reuse-instance'
+
+let g:vimtex_compiler_method = 'latexmk'
+
+" Most VimTeX mappings rely on localleader and this can be changed with the
+" following line. The default is usually fine and is the symbol "\".
+let maplocalleader = " "
 
 syntax on
-colorscheme dracula
+set background=dark
+colorscheme ayu
 
 set relativenumber
 set number
 
 nnoremap <SPACE> <Nop>
 let mapleader = " "
+
+let g:indentLine_setConceal = 0
 
 "Whichkey
 call which_key#register('<Space>', "g:which_key_map")
@@ -88,6 +106,11 @@ let g:bufferline_echo = 0
 " Set tabsize
 
 set expandtab shiftwidth=4 tabstop=4
+
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+autocmd FileType html setlocal shiftwidth=2 tabstop=2
+autocmd FileType css setlocal shiftwidth=2 tabstop=2
+autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
 
 set autoindent
 
@@ -248,3 +271,6 @@ imap <silent> <C-a> <C-O><Plug>(coc-codeaction-line)
 nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Rust autoformat
+let g:rustfmt_autosave = 1
