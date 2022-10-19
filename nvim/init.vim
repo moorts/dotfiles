@@ -2,8 +2,6 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'joshdick/onedark.vim'
 Plug 'bignimbus/pop-punk.vim'
-Plug 'AlessandroYorba/Alduin'
-Plug 'ayu-theme/ayu-vim'
 Plug 'Yggdroot/indentLine'
 Plug 'bling/vim-bufferline'
 Plug 'voldikss/vim-floaterm'
@@ -15,28 +13,42 @@ Plug 'kana/vim-altr'
 Plug 'vim-scripts/utl.vim'
 Plug 'ziglang/zig.vim'
 Plug 'dracula/vim'
-Plug 'ayu-theme/ayu-vim'
+"Plug 'ayu-theme/ayu-vim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'vim-airline/vim-airline'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'intrntbrn/awesomewm-vim-tmux-navigator'
+Plug 'lervag/vimtex'
+Plug 'sirver/ultisnips'
 call plug#end()
+
 
 let g:indentLine_setConceal=0
 
 let g:airline_powerline_fonts = 1
 set termguicolors
-let ayucolor="mirage"
+"let ayucolor="mirage"
 
 syntax on
-colorscheme ayu
+"colorscheme ayu
 
 set relativenumber
 set number
 
 nnoremap <SPACE> <Nop>
 let mapleader = " "
+let maplocalleader = " "
+
+let g:tex_flavor='latedx'
+let g:vimtex_view_method = "zathura"
+let g:vimtex_quickfix_enabled = 0
+
+"
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
 "Whichkey
 call which_key#register('<Space>', "g:which_key_map")
@@ -62,10 +74,10 @@ tnoremap <Esc> <C-\><C-n>
 
 " Window navigation
 "
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
+"map <C-h> <C-w>h
+"map <C-j> <C-w>j
+"map <C-k> <C-w>k
+"map <C-l> <C-w>l
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>h :split<CR>
 
