@@ -141,7 +141,17 @@
   ;:custom
   ;(magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
-(set-face-attribute 'variable-pitch nil :font "Cantarell" :height 100 :weight 'regular)
+(defvar efs/default-font-size 100)
+(defvar efs/default-variable-font-size 100)
+
+(set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
+
+
+;; Set the fixed pitch face
+(set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
+
+;; Set the variable pitch face
+(set-face-attribute 'variable-pitch nil :font "Cantarell" :height efs/default-variable-font-size :weight 'regular)
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
