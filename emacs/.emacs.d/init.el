@@ -29,9 +29,12 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package rust-mode
-  :config
-  (add-hook 'rust-mode-hook
-      (lambda () (setq indent-tabs-mode nil))))
+    :config
+    (add-hook 'rust-mode-hook
+       (lambda () (setq indent-tabs-mode nil))))
+
+(use-package yaml-mode)
+(use-package lua-mode)
 
 (use-package evil
   :init

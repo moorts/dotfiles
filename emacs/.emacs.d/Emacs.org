@@ -50,12 +50,17 @@ Remove scrollbar, enable line numbers, that type of thing.
 #+end_src
 
 * Programming
-** Rust-Mode
+
+** Language Modes
+
 #+begin_src emacs-lisp
-    (use-package rust-mode
+   (use-package rust-mode
       :config
       (add-hook 'rust-mode-hook
-          (lambda () (setq indent-tabs-mode nil))))
+         (lambda () (setq indent-tabs-mode nil))))
+
+  (use-package yaml-mode)
+  (use-package lua-mode)
 #+end_src
 
 * Keybindings
