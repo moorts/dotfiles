@@ -1,3 +1,20 @@
+(require 'package)
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+
+(package-initialize)
+(unless package-archive-contents
+ (package-refresh-contents))
+
+;; Initialize use-package on non-Linux platforms
+(unless (package-installed-p 'use-package)
+   (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
 (setq inhibit-startup-message t)
 
 (scroll-bar-mode -1)
@@ -35,6 +52,14 @@
 
 (use-package yaml-mode)
 (use-package lua-mode)
+(use-package markdown-mode)
+
+(use-package vterm)
+
+(use-package term
+  :config
+  (setq explicit-shell-file-name "zsh")
+  (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
 
 (use-package evil
   :init
@@ -140,6 +165,14 @@
 (use-package counsel-projectile
   :config (counsel-projectile-mode))
 
+(use-package perspective
+  :bind
+  ("C-x C-b" . persp-counsel-switch-buffer)         ; or use a nicer switcher, see below
+  :custom
+  (persp-mode-prefix-key (kbd "C-x x"))  ; pick your own prefix key here
+  :init
+  (persp-mode))
+
 (use-package magit)
   ;:custom
   ;(magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
@@ -217,22 +250,11 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-set-key (kbd "C-M-j") 'counsel-switch-buffer)
 
-(require 'package)
+;;(global-set-key (kbd "C-x C-b") 'ibuffer)
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
+(use-package pass)
 
-(package-initialize)
-(unless package-archive-contents
- (package-refresh-contents))
-
-;; Initialize use-package on non-Linux platforms
-(unless (package-installed-p 'use-package)
-   (package-install 'use-package))
-
-(require 'use-package)
-(setq use-package-always-ensure t)
+(autoload 'notmuch "notmuch" "notmuch mail" t)
 
 ;; Automatically tangle our Emacs.org config file when we save it
 (defun efs/org-babel-tangle-config ()

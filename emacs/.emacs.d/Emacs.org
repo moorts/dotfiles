@@ -1,6 +1,6 @@
 #+title Emacs Configuration
 
-#+PROPERTY: header-args:emacs-lisp :tangle ./init.el
+#+PROPERTY: header-args:emacs-lisp :tangle ./init.el :results none
 
 * Setup
 ** Package Management
@@ -23,7 +23,8 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 #+end_src
-* Window Appearance
+* Appearance
+** Window Appearance
 
 Remove scrollbar, enable line numbers, that type of thing.
 
@@ -54,7 +55,7 @@ Remove scrollbar, enable line numbers, that type of thing.
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
 
-* Editor Appearance
+** Editor Appearance
 
 ** Color Scheme
 
@@ -71,7 +72,6 @@ Remove scrollbar, enable line numbers, that type of thing.
 #+end_src
 
 * Programming
-
 ** Language Modes
 
 #+begin_src emacs-lisp
@@ -82,10 +82,24 @@ Remove scrollbar, enable line numbers, that type of thing.
 
   (use-package yaml-mode)
   (use-package lua-mode)
+  (use-package markdown-mode)
 #+end_src
 
-* Keybindings
+* Terminals
+** Eshell
+** Vterm
+#+begin_src emacs-lisp
+(use-package vterm)
+#+end_src
+** Term
+#+begin_src emacs-lisp
+  (use-package term
+    :config
+    (setq explicit-shell-file-name "zsh")
+    (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
 
+#+end_src
+* Keybindings
 ** Evil-Mode
 
 #+begin_src emacs-lisp
@@ -219,6 +233,16 @@ Remove scrollbar, enable line numbers, that type of thing.
   :config (counsel-projectile-mode))
 #+end_src
 
+** Perspective
+#+begin_src emacs-lisp
+(use-package perspective
+  :bind
+  ("C-x C-b" . persp-counsel-switch-buffer)         ; or use a nicer switcher, see below
+  :custom
+  (persp-mode-prefix-key (kbd "C-x x"))  ; pick your own prefix key here
+  :init
+  (persp-mode))
+#+end_src
 ** Magit
 
 #+begin_src emacs-lisp
@@ -324,13 +348,24 @@ Remove scrollbar, enable line numbers, that type of thing.
 ** Some Global Keybindings
 
 #+begin_src emacs-lisp
-;; Make ESC quit prompts
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-(global-set-key (kbd "C-M-j") 'counsel-switch-buffer)
+  ;; Make ESC quit prompts
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (global-set-key (kbd "C-M-j") 'counsel-switch-buffer)
+
+  ;;(global-set-key (kbd "C-x C-b") 'ibuffer)
+#+end_src
+
+** Pass
+#+begin_src emacs-lisp
+  (use-package pass)
 #+end_src
 
 
-* Auto-tange Configuration Files
+** Notmuch
+#+begin_src emacs-lisp
+(autoload 'notmuch "notmuch" "notmuch mail" t)
+#+end_src
+* Auto-Tangle Configuration Files
 
 #+begin_src emacs-lisp
   ;; Automatically tangle our Emacs.org config file when we save it
