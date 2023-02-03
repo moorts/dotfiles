@@ -58,8 +58,6 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
---myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
---myWorkspaces = withScreens 2 ["\62532", "\62532", "\62532", "\62532", "\62532", "\62532", "\62532", "\62532", "\62532"]
 myWorkspaces = withScreens 2 ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 -- Border colors for unfocused and focused windows, respectively.
@@ -73,7 +71,7 @@ myFocusedBorderColor = "#ff0000"
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch a terminal
-    [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
+    [ ((modm,               xK_Return), spawn $ XMonad.terminal conf)
 
     -- launch dmenu
     , ((modm,               xK_p     ), spawn "dmenu_run")
@@ -106,7 +104,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_m     ), windows W.focusMaster  )
 
     -- Swap the focused window and the master window
-    , ((modm,               xK_Return), windows W.swapMaster)
+    , ((modm .|. shiftMask, xK_Return), windows W.swapMaster)
 
     -- Swap the focused window with the next window
     , ((modm .|. shiftMask, xK_j     ), windows W.swapDown  )
@@ -265,8 +263,7 @@ myStartupHook = do
     spawn "~/.config/xmonad/scripts/systray.sh"
     spawn "setxkbmap -option grp:alt_shift_toggle"
     spawn "setxkbmap -option ctrl:nocaps"
-    --spawnOnce "nm-applet"
-    --spawnOnce "pgrep -u $USER trayer >/dev/null || trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent false --tint 0x000000 --height 18"
+    spawnOnce "nm-applet"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -282,15 +279,18 @@ currentBg = "black"
 otherScreenFg = "#24408e"
 otherScreenBg = "black"
 
+hiddenFg = currentFg
+hiddenBg = "black"
+
+colorFg color = xmobarColor color "black"
+
 --workspaceChar = const "\62532"
 workspaceChar = id
 
-myPP = xmobarPP { ppHiddenNoWindows = wrap " " " " . workspaceChar
-                --, ppHidden = const "\62532" 
-                --, ppVisible = const "\62532" 
-                , ppHidden = wrap " " " " . workspaceChar
-                , ppVisible = xmobarColor otherScreenFg otherScreenBg . wrap " λ(" ") " . workspaceChar
-                , ppCurrent = xmobarColor currentFg currentBg . wrap " λ(" ") " . workspaceChar
+myPP = xmobarPP { ppHiddenNoWindows = wrap " " " "
+                , ppHidden = colorFg hiddenFg . wrap " " " "
+                , ppVisible = colorFg otherScreenFg . wrap " λ(" ") "
+                , ppCurrent = colorFg currentFg . wrap " λ(" ") "
                 , ppLayout = const ""
                 , ppTitle = const ""
                 , ppWsSep = ","
@@ -338,7 +338,7 @@ help :: String
 help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "",
     "-- launching and killing programs",
-    "mod-Shift-Enter  Launch xterminal",
+    "mod-Return       Launch xterminal",
     "mod-p            Launch dmenu",
     "mod-Shift-p      Launch gmrun",
     "mod-Shift-c      Close/kill the focused window",
@@ -354,7 +354,7 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "mod-m          Move focus to the master window",
     "",
     "-- modifying the window order",
-    "mod-Return   Swap the focused window and the master window",
+    "mod-Shift-Return   Swap the focused window and the master window",
     "mod-Shift-j  Swap the focused window with the next window",
     "mod-Shift-k  Swap the focused window with the previous window",
     "",
