@@ -252,7 +252,7 @@ myLogHook = return ()
 myStartupHook = do
     spawnOnce "pgrep -u $USER trayer >/dev/null || trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --tint 0x000000 --height 18"
     spawnOnce "nm-applet"
-    spawnOnce "feh --bg-scale /home/moorts/Pictures/gideon.jpg"
+    spawnOnce "feh --bg-scale /home/moorts/.config/xmonad/wallpaper.jpg"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
