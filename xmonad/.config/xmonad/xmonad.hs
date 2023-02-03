@@ -12,9 +12,14 @@ import Data.Monoid
 import System.Exit
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Run
+import XMonad.Util.Loggers
 
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
+
+import XMonad.Hooks.EwmhDesktops
+
+import XMonad.Layout.IndependentScreens
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -53,7 +58,9 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+--myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+--myWorkspaces = withScreens 2 ["\62532", "\62532", "\62532", "\62532", "\62532", "\62532", "\62532", "\62532", "\62532"]
+myWorkspaces = withScreens 2 ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -143,9 +150,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- mod-[1..9], Switch to workspace N
     -- mod-shift-[1..9], Move client to workspace N
     --
-    [((m .|. modm, k), windows $ f i)
-        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+    --[((m .|. modm, k), windows $ f i)
+    --    | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
+    --    , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+
+    [((m .|. modm, k), windows $ onCurrentScreen f i)
+        | (i, k) <- zip (workspaces' conf) [xK_1 .. xK_9]
+        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
     ++
 
     --
@@ -250,9 +261,12 @@ myLogHook = return ()
 --
 -- By default, do nothing.
 myStartupHook = do
-    spawnOnce "pgrep -u $USER trayer >/dev/null || trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --tint 0x000000 --height 18"
-    spawnOnce "nm-applet"
-    spawnOnce "feh --bg-scale /home/moorts/.config/xmonad/wallpaper.jpg"
+    spawnOnce "xrandr --output DVI-D-0 --off --output HDMI-0 --mode 3440x1440 --pos 1920x0 --rotate normal --output DP-0 --off --output DP-1 --mode 1920x1080 --pos 0x180 --rotate normal --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off && feh --bg-fill /home/moorts/.config/xmonad/burningTree.jpg"
+    spawn "~/.config/xmonad/scripts/systray.sh"
+    spawn "setxkbmap -option grp:alt_shift_toggle"
+    spawn "setxkbmap -option ctrl:nocaps"
+    --spawnOnce "nm-applet"
+    --spawnOnce "pgrep -u $USER trayer >/dev/null || trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent false --tint 0x000000 --height 18"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -260,8 +274,34 @@ myStartupHook = do
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 --xmproc <- spawnPipe "xmobar -x 0 /home/moorts/.xmobarrc"
+
+
+currentFg = "#ff8c00"
+currentBg = "black"
+
+otherScreenFg = "#24408e"
+otherScreenBg = "black"
+
+--workspaceChar = const "\62532"
+workspaceChar = id
+
+myPP = xmobarPP { ppHiddenNoWindows = wrap " " " " . workspaceChar
+                --, ppHidden = const "\62532" 
+                --, ppVisible = const "\62532" 
+                , ppHidden = wrap " " " " . workspaceChar
+                , ppVisible = xmobarColor otherScreenFg otherScreenBg . wrap " λ(" ") " . workspaceChar
+                , ppCurrent = xmobarColor currentFg currentBg . wrap " λ(" ") " . workspaceChar
+                , ppLayout = const ""
+                , ppTitle = const ""
+                , ppWsSep = ","
+       }
+  
+mySBR = statusBarPropTo "_XMONAD_LOG_0" "xmobar -x 0" (pure (marshallPP (S 0) myPP))
+mySBL = statusBarPropTo "_XMONAD_LOG_1" "xmobar -x 1 ~/.xmobarrc_1" (pure (marshallPP (S 1) myPP))
+
 main = xmonad
-     . withEasySB (statusBarProp "xmobar" (pure def)) defToggleStrutsKey
+     . ewmhFullscreen . ewmh
+     . withEasySB (mySBL <> mySBR) defToggleStrutsKey
      $ defaults
 
 -- A structure containing your configuration settings, overriding

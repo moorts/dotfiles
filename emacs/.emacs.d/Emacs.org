@@ -83,6 +83,7 @@ Remove scrollbar, enable line numbers, that type of thing.
   (use-package yaml-mode)
   (use-package lua-mode)
   (use-package markdown-mode)
+  (use-package haskell-mode)
 #+end_src
 
 * Terminals
