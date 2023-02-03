@@ -7,6 +7,9 @@ justemacs:
 justawesome:
 	stow --verbose --target=$$HOME --restow awesome
 
+justxmonad:
+	stow --verbose --target=$$HOME --restow xmonad
+
 justvim:
 	stow --verbose --target=$$HOME --restow nvim
 
