@@ -46,12 +46,13 @@ Remove scrollbar, enable line numbers, that type of thing.
 
   (setq display-line-numbers-type 'relative)
 
-  ;; Disable line numbers for some modes
+  ;; Disable line numbers for Some modes
   (dolist (mode '(org-mode-hook
-		  term-mode-hook
-		  shell-mode-hook
-		  treemacs-mode-hook
-		  eshell-mode-hook))
+                  term-mode-hook
+                  shell-mode-hook
+                  vterm-mode-hook
+                  treemacs-mode-hook
+                  eshell-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
 
@@ -83,7 +84,9 @@ Remove scrollbar, enable line numbers, that type of thing.
   (use-package yaml-mode)
   (use-package lua-mode)
   (use-package markdown-mode)
-  (use-package haskell-mode)
+
+  (use-package haskell-mode
+    :bind(("C-c h" . (lambda () (interactive) (compile "source ~/.zshrc; stack build --fast")))))
 #+end_src
 
 * Terminals
@@ -96,7 +99,7 @@ Remove scrollbar, enable line numbers, that type of thing.
 #+begin_src emacs-lisp
   (use-package term
     :config
-    (setq explicit-shell-file-name "zsh")
+    (setq explicit-shell-file-name "bash")
     (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
 
 #+end_src
@@ -237,8 +240,8 @@ Remove scrollbar, enable line numbers, that type of thing.
 ** Perspective
 #+begin_src emacs-lisp
 (use-package perspective
-  :bind
-  ("C-x C-b" . persp-counsel-switch-buffer)         ; or use a nicer switcher, see below
+  :bind (("C-x C-b" . persp-counsel-switch-buffer)         ; or use a nicer switcher, see below
+         ("C-x p l" . projectile-persp-switch-project))         ; or use a nicer switcher, see below
   :custom
   (persp-mode-prefix-key (kbd "C-x x"))  ; pick your own prefix key here
   :init

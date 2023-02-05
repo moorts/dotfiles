@@ -18,6 +18,8 @@ import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
 
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.ManageDocks
 
 import XMonad.Layout.IndependentScreens
 
@@ -28,6 +30,7 @@ import qualified Data.Map        as M
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
+--myTerminal      = "st -f \"FiraCode Nerd Font:size=10\""
 myTerminal      = "st -f \"FiraCode Nerd Font:size=10\""
 
 -- Whether focus follows the mouse pointer.
@@ -40,7 +43,7 @@ myClickJustFocuses = False
 
 -- Width of the window border in pixels.
 --
-myBorderWidth   = 1
+myBorderWidth   = 2
 
 -- modMask lets you specify which modkey you want to use. The default
 -- is mod1Mask ("left alt").  You may also consider using mod3Mask
@@ -60,10 +63,18 @@ myModMask       = mod4Mask
 --
 myWorkspaces = withScreens 2 ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
+-- Rainbow Colors
+red = "#E40303"
+orange = "#FF8C00"
+yellow = "#FFED00"
+green = "#008026"
+blue = "#24408E"
+purple = "#732982"
+
 -- Border colors for unfocused and focused windows, respectively.
 --
-myNormalBorderColor  = "#dddddd"
-myFocusedBorderColor = "#ff0000"
+myNormalBorderColor  = blue
+myFocusedBorderColor = orange
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -226,10 +237,12 @@ myLayout = tiled ||| Mirror tiled ||| Full
 -- 'className' and 'resource' are used below.
 --
 myManageHook = composeAll
-    [ className =? "MPlayer"        --> doFloat
+    [ manageDocks
+    , className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore ]
+    , resource  =? "kdesktop"       --> doIgnore
+    , isFullscreen                  --> doFullFloat ]
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -273,30 +286,28 @@ myStartupHook = do
 --xmproc <- spawnPipe "xmobar -x 0 /home/moorts/.xmobarrc"
 
 
-currentFg = "#ff8c00"
+currentFg = orange
 currentBg = "black"
 
-otherScreenFg = "#24408e"
+otherScreenFg = blue
 otherScreenBg = "black"
 
-hiddenFg = currentFg
+--hiddenFg = currentFg
+hiddenFg = blue
 hiddenBg = "black"
 
 colorFg color = xmobarColor color "black"
 
---workspaceChar = const "\62532"
-workspaceChar = id
-
-myPP = xmobarPP { ppHiddenNoWindows = wrap " " " "
-                , ppHidden = colorFg hiddenFg . wrap " " " "
-                , ppVisible = colorFg otherScreenFg . wrap " λ(" ") "
-                , ppCurrent = colorFg currentFg . wrap " λ(" ") "
+myPP = xmobarPP { ppHiddenNoWindows = wrap "" " "
+                , ppHidden = colorFg hiddenFg . wrap "" " "
+                , ppVisible = colorFg otherScreenFg . wrap "λ(" ")"
+                , ppCurrent = colorFg currentFg . wrap "λ(" ")"
                 , ppLayout = const ""
                 , ppTitle = const ""
-                , ppWsSep = ","
-       }
+                , ppWsSep = " "
+                }
   
-mySBR = statusBarPropTo "_XMONAD_LOG_0" "xmobar -x 0" (pure (marshallPP (S 0) myPP))
+mySBR = statusBarPropTo "_XMONAD_LOG_0" "xmobar -x 0 ~/.xmobarrc" (pure (marshallPP (S 0) myPP))
 mySBL = statusBarPropTo "_XMONAD_LOG_1" "xmobar -x 1 ~/.xmobarrc_1" (pure (marshallPP (S 1) myPP))
 
 main = xmonad

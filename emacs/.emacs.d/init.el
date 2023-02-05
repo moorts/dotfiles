@@ -31,12 +31,13 @@
 
 (setq display-line-numbers-type 'relative)
 
-;; Disable line numbers for some modes
+;; Disable line numbers for Some modes
 (dolist (mode '(org-mode-hook
-		term-mode-hook
-		shell-mode-hook
-		treemacs-mode-hook
-		eshell-mode-hook))
+                term-mode-hook
+                shell-mode-hook
+                vterm-mode-hook
+                treemacs-mode-hook
+                eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (use-package gruvbox-theme
@@ -53,13 +54,15 @@
 (use-package yaml-mode)
 (use-package lua-mode)
 (use-package markdown-mode)
-(use-package haskell-mode)
+
+(use-package haskell-mode
+  :bind(("C-c h" . (lambda () (interactive) (compile "source ~/.zshrc; stack build --fast")))))
 
 (use-package vterm)
 
 (use-package term
   :config
-  (setq explicit-shell-file-name "zsh")
+  (setq explicit-shell-file-name "bash")
   (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
 
 (use-package evil
@@ -167,8 +170,8 @@
   :config (counsel-projectile-mode))
 
 (use-package perspective
-  :bind
-  ("C-x C-b" . persp-counsel-switch-buffer)         ; or use a nicer switcher, see below
+  :bind (("C-x C-b" . persp-counsel-switch-buffer)         ; or use a nicer switcher, see below
+         ("C-x p l" . projectile-persp-switch-project))         ; or use a nicer switcher, see below
   :custom
   (persp-mode-prefix-key (kbd "C-x x"))  ; pick your own prefix key here
   :init
@@ -266,16 +269,3 @@
       (org-babel-tangle))))
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(haskell-mode yaml-mode which-key vterm use-package rust-mode rainbow-delimiters persp-projectile pass org-bullets markdown-mode magit lua-mode ivy-rich hydra helpful gruvbox-theme general exwm evil-collection counsel-projectile ayu-theme)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
