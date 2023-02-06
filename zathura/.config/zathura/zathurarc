@@ -1,1 +1,3 @@
 set selection-clipboard clipboard
+
+include zathura-gruvbox-light
