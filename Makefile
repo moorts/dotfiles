@@ -13,5 +13,11 @@ justxmonad:
 justvim:
 	stow --verbose --target=$$HOME --restow nvim
 
+justzathura:
+	stow --verbose --target=$$HOME --restow zathura
+
+justqute:
+	stow --verbose --target=$$HOME --restow qutebrowser
+
 delete:
 	stow --verbose --target=$$HOME --delete /*

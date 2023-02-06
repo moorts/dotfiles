@@ -359,11 +359,17 @@ Remove scrollbar, enable line numbers, that type of thing.
   ;;(global-set-key (kbd "C-x C-b") 'ibuffer)
 #+end_src
 
+** PDF
+#+begin_src emacs-lisp
+  (use-package openwith
+    :config
+    (openwith-mode t)
+    (setq openwith-associations '(("\\.pdf\\'" "/home/moorts/.config/zathura/za_tabbed.sh" (file)))))
+#+end_src
 ** Pass
 #+begin_src emacs-lisp
   (use-package pass)
 #+end_src
-
 
 ** Notmuch
 #+begin_src emacs-lisp

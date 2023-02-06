@@ -256,6 +256,11 @@
 
 ;;(global-set-key (kbd "C-x C-b") 'ibuffer)
 
+(use-package openwith
+  :config
+  (openwith-mode t)
+  (setq openwith-associations '(("\\.pdf\\'" "/home/moorts/.config/zathura/za_tabbed.sh" (file)))))
+
 (use-package pass)
 
 (autoload 'notmuch "notmuch" "notmuch mail" t)
