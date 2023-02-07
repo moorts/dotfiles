@@ -152,6 +152,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Restart xmonad
     , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
 
+    -- Lock Screen
+    , ((modm .|. shiftMask, xK_l     ), spawn "betterlockscreen -l")
+    , ((modm .|. shiftMask, xK_s     ), spawn "betterlockscreen -s")
+
     -- Run xmessage with a summary of the default keybindings (useful for beginners)
     , ((modm .|. shiftMask, xK_slash ), spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
     ]

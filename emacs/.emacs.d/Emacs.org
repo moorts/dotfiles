@@ -57,7 +57,6 @@ Remove scrollbar, enable line numbers, that type of thing.
 #+end_src
 
 ** Editor Appearance
-
 ** Color Scheme
 
 #+begin_src emacs-lisp
@@ -72,6 +71,11 @@ Remove scrollbar, enable line numbers, that type of thing.
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
+** Nyan Mode
+#+begin_src emacs-lisp
+  (use-package nyan-mode
+    :config (nyan-mode t))
+#+end_src
 * Programming
 ** Language Modes
 
@@ -93,7 +97,9 @@ Remove scrollbar, enable line numbers, that type of thing.
 ** Eshell
 ** Vterm
 #+begin_src emacs-lisp
-(use-package vterm)
+    (use-package vterm
+      :config
+      (setq vterm-buffer-name-string "vterm %s"))
 #+end_src
 ** Term
 #+begin_src emacs-lisp

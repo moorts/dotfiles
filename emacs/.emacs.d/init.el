@@ -46,6 +46,9 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
+(use-package nyan-mode
+  :config (nyan-mode t))
+
 (use-package rust-mode
     :config
     (add-hook 'rust-mode-hook
@@ -58,7 +61,9 @@
 (use-package haskell-mode
   :bind(("C-c h" . (lambda () (interactive) (compile "source ~/.zshrc; stack build --fast")))))
 
-(use-package vterm)
+(use-package vterm
+  :config
+  (setq vterm-buffer-name-string "vterm %s"))
 
 (use-package term
   :config
