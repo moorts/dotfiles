@@ -19,5 +19,8 @@ justzathura:
 justqute:
 	stow --verbose --target=$$HOME --restow qutebrowser
 
+justzsh:
+	stow --verbose --target=$$HOME --restow zsh
+
 delete:
 	stow --verbose --target=$$HOME --delete /*
