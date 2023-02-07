@@ -1,0 +1,3 @@
+[submodule "qutebrowser/.config/qutebrowser/qutenyan"]
+	path = qutebrowser/.config/qutebrowser/qutenyan
+	url = https://gitlab.com/jgkamat/qutenyan
