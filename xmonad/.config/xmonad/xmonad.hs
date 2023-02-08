@@ -7,6 +7,8 @@
 -- Normally, you'd only override those defaults you care about.
 --
 
+import System.Posix.Unistd
+
 import XMonad
 import Data.Monoid
 import System.Exit
@@ -277,12 +279,19 @@ myLogHook = return ()
 -- per-workspace layout choices.
 --
 -- By default, do nothing.
-myStartupHook = do
-    spawnOnce "xrandr --output DVI-D-0 --off --output HDMI-0 --mode 3440x1440 --pos 1920x0 --rotate normal --output DP-0 --off --output DP-1 --mode 1920x1080 --pos 0x180 --rotate normal --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off && feh --bg-fill /home/moorts/.config/xmonad/burningTree.jpg"
-    spawn "~/.config/xmonad/scripts/systray.sh"
-    spawn "setxkbmap -option grp:alt_shift_toggle"
-    spawn "setxkbmap -option ctrl:nocaps"
-    spawnOnce "nm-applet"
+
+myScreenConfigs = [
+  ("crimson", "xrandr --output DVI-D-0 --off --output HDMI-0 --mode 3440x1440 --pos 1920x0 --rotate normal --output DP-0 --off --output DP-1 --mode 1920x1080 --pos 0x180 --rotate normal --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off && feh --bg-fill /home/moorts/.config/xmonad/burningTree.jpg"),
+  ("carbon", "feh --bg-fill /home/moorts/.config/xmonad/burningTree.jpg")]
+
+myStartupHook hostname = do
+  spawnOnce config
+  spawn "~/.config/xmonad/scripts/systray.sh"
+  spawn "setxkbmap -option grp:alt_shift_toggle"
+  spawn "setxkbmap -option ctrl:nocaps"
+  spawnOnce "nm-applet"
+  where
+    Just config = lookup hostname myScreenConfigs
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -316,10 +325,12 @@ myPP = xmobarPP { ppHiddenNoWindows = wrap "" " "
 mySBR = statusBarPropTo "_XMONAD_LOG_0" "xmobar -x 0 ~/.xmobarrc" (pure (marshallPP (S 0) myPP))
 mySBL = statusBarPropTo "_XMONAD_LOG_1" "xmobar -x 1 ~/.xmobarrc_1" (pure (marshallPP (S 1) myPP))
 
-main = xmonad
+main = do
+  host <- fmap nodeName getSystemID
+  xmonad
      . ewmhFullscreen . ewmh
      . withEasySB (mySBL <> mySBR) defToggleStrutsKey
-     $ defaults
+     $ (defaults host)
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
@@ -327,7 +338,7 @@ main = xmonad
 --
 -- No need to modify this.
 --
-defaults = def {
+defaults hostname = def {
       -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
@@ -347,7 +358,7 @@ defaults = def {
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
         logHook            = myLogHook,
-        startupHook        = myStartupHook
+        startupHook        = myStartupHook hostname
     }
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
