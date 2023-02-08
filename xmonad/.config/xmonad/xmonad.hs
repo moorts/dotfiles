@@ -9,6 +9,8 @@
 
 import System.Posix.Unistd
 
+import Data.Monoid
+
 import XMonad
 import Data.Monoid
 import System.Exit
@@ -284,14 +286,14 @@ myScreenConfigs = [
   ("crimson", "xrandr --output DVI-D-0 --off --output HDMI-0 --mode 3440x1440 --pos 1920x0 --rotate normal --output DP-0 --off --output DP-1 --mode 1920x1080 --pos 0x180 --rotate normal --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off && feh --bg-fill /home/moorts/.config/xmonad/burningTree.jpg"),
   ("carbon", "feh --bg-fill /home/moorts/.config/xmonad/burningTree.jpg")]
 
-myStartupHook hostname = do
+myStartupHook host = do
   spawnOnce config
   spawn "~/.config/xmonad/scripts/systray.sh"
   spawn "setxkbmap -option grp:alt_shift_toggle"
   spawn "setxkbmap -option ctrl:nocaps"
   spawnOnce "nm-applet"
   where
-    Just config = lookup hostname myScreenConfigs
+    Just config = lookup host myScreenConfigs
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -322,6 +324,12 @@ myPP = xmobarPP { ppHiddenNoWindows = wrap "" " "
                 , ppWsSep = " "
                 }
   
+myStatusBars host =
+  if host == "crimson" then
+    [mySBR, mySBL]
+  else
+    [mySBR]
+
 mySBR = statusBarPropTo "_XMONAD_LOG_0" "xmobar -x 0 ~/.xmobarrc" (pure (marshallPP (S 0) myPP))
 mySBL = statusBarPropTo "_XMONAD_LOG_1" "xmobar -x 1 ~/.xmobarrc_1" (pure (marshallPP (S 1) myPP))
 
@@ -329,7 +337,7 @@ main = do
   host <- fmap nodeName getSystemID
   xmonad
      . ewmhFullscreen . ewmh
-     . withEasySB (mySBL <> mySBR) defToggleStrutsKey
+     . withEasySB (mconcat (myStatusBars host)) defToggleStrutsKey
      $ (defaults host)
 
 -- A structure containing your configuration settings, overriding
@@ -338,7 +346,7 @@ main = do
 --
 -- No need to modify this.
 --
-defaults hostname = def {
+defaults host = def {
       -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
@@ -358,7 +366,7 @@ defaults hostname = def {
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
         logHook            = myLogHook,
-        startupHook        = myStartupHook hostname
+        startupHook        = myStartupHook host
     }
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
