@@ -57,6 +57,7 @@
 (use-package yaml-mode)
 (use-package lua-mode)
 (use-package markdown-mode)
+(use-package cuda-mode)
 
 (use-package haskell-mode
   :bind(("C-c h" . (lambda () (interactive) (compile "source ~/.zshrc; stack build --fast")))))
@@ -260,6 +261,8 @@
 (global-set-key (kbd "C-M-j") 'counsel-switch-buffer)
 
 ;;(global-set-key (kbd "C-x C-b") 'ibuffer)
+
+(setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 
 (use-package openwith
   :config

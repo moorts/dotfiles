@@ -88,6 +88,7 @@ Remove scrollbar, enable line numbers, that type of thing.
   (use-package yaml-mode)
   (use-package lua-mode)
   (use-package markdown-mode)
+  (use-package cuda-mode)
 
   (use-package haskell-mode
     :bind(("C-c h" . (lambda () (interactive) (compile "source ~/.zshrc; stack build --fast")))))
@@ -365,6 +366,10 @@ Remove scrollbar, enable line numbers, that type of thing.
   ;;(global-set-key (kbd "C-x C-b") 'ibuffer)
 #+end_src
 
+** Rules
+#+begin_src emacs-lisp
+(setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
+#+end_src
 ** PDF
 #+begin_src emacs-lisp
   (use-package openwith

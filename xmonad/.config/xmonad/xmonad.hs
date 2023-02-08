@@ -37,7 +37,7 @@ import qualified Data.Map        as M
 -- certain contrib modules.
 --
 --myTerminal      = "st -f \"FiraCode Nerd Font:size=10\""
-myTerminal      = "st -f \"FiraCode Nerd Font:size=10\""
+myTerminal      = "emacsclient -c -q --eval \"(vterm)\""
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -89,6 +89,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch a terminal
     [ ((modm,               xK_Return), spawn $ XMonad.terminal conf)
+
+    -- launch emacs
+    , ((modm,               xK_BackSpace), spawn "emacsclient -c -a \"\"")
 
     -- launch dmenu
     , ((modm,               xK_p     ), spawn "dmenu_run")
@@ -291,6 +294,7 @@ myStartupHook host = do
   spawn "~/.config/xmonad/scripts/systray.sh"
   spawn "setxkbmap -option grp:alt_shift_toggle"
   spawn "setxkbmap -option ctrl:nocaps"
+  spawnOnce "emacs --daemon"
   spawnOnce "nm-applet"
   where
     Just config = lookup host myScreenConfigs
