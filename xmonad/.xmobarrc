@@ -44,10 +44,10 @@ Config { overrideRedirect = False
                         ] 50
                     , Run Date "%a %Y-%m-%d <fc=#8be9fd,#732982>%H:%M</fc>" "date" 10
 		    , Run Com "/home/moorts/.config/xmonad/scripts/systraypad.sh" [] "traypad" 100
-
+		    , Run Kbd [("us", "us"), ("de", "de")]
                     , Run XPropertyLog "_XMONAD_LOG_0"
                     ]
        , sepChar = "%"
        , alignSep = "Γγ"
-       , template = "<icon=haskell_20.xpm/> %_XMONAD_LOG_0% Γγ <fc=#000000,#e40303></fc><fc=#000000,#e40303> %alsa:default:Master% </fc><fc=#e40303,#ff8c00></fc><fc=#000000,#ff8c00> %cpu% </fc><fc=#ff8c00,#ffed00></fc><fc=#000000,#ffed00> %memory% </fc><fc=#ffed00,#008026></fc><fc=#000000,#008026> %battery% </fc><fc=#008026,#24408E></fc><fc=#000000,#24408e> %EGPF% </fc><fc=#24408e,#732982></fc><fc=#000000,#732982> %date% </fc><fc=#732982,#000000></fc> %traypad% "
+       , template = "<icon=haskell_20.xpm/> %_XMONAD_LOG_0% Γγ <fc=#000000,#e40303></fc><fc=#000000,#e40303> %kbd% </fc><fc=#e40303,#ff8c00></fc><fc=#000000,#ff8c00> %cpu% </fc><fc=#ff8c00,#ffed00></fc><fc=#000000,#ffed00> %memory% </fc><fc=#ffed00,#008026></fc><fc=#000000,#008026> %battery% </fc><fc=#008026,#24408E></fc><fc=#000000,#24408e> %alsa:default:Master% </fc><fc=#24408e,#732982></fc><fc=#000000,#732982> %date% </fc><fc=#732982,#000000></fc> %traypad% "
        }

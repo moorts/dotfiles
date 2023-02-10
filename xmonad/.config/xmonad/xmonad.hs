@@ -67,7 +67,7 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces = withScreens 2 ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+myWorkspaces = withScreens 2 ["dev", "www", "etc", "4", "5", "6", "7", "8", "9"]
 
 -- Rainbow Colors
 red = "#E40303"
@@ -286,26 +286,24 @@ myLogHook = return ()
 -- By default, do nothing.
 
 myScreenConfigs = [
-  ("crimson", "xrandr --output DVI-D-0 --off --output HDMI-0 --mode 3440x1440 --pos 1920x0 --rotate normal --output DP-0 --off --output DP-1 --mode 1920x1080 --pos 0x180 --rotate normal --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off && feh --bg-fill /home/moorts/.config/xmonad/burningTree.jpg"),
-  ("carbon", "feh --bg-fill /home/moorts/.config/xmonad/burningTree.jpg")]
+  ("crimson", "xrandr --output DVI-D-0 --off --output HDMI-0 --mode 3440x1440 --pos 1920x0 --rotate normal --output DP-0 --off --output DP-1 --mode 1920x1080 --pos 0x180 --rotate normal --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off && feh --bg-fill ~/.config/xmonad/burningTree.jpg"),
+  ("carbon", "feh --bg-fill ~/.config/xmonad/burningTree.jpg")]
 
 myStartupHook host = do
-  spawnOnce config
+  spawnOnce screenConfig
   spawn "~/.config/xmonad/scripts/systray.sh"
   spawn "setxkbmap -option grp:alt_shift_toggle"
   spawn "setxkbmap -option ctrl:nocaps"
   spawnOnce "emacs --daemon"
   spawnOnce "nm-applet"
   where
-    Just config = lookup host myScreenConfigs
+    Just screenConfig = lookup host myScreenConfigs
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
 
 -- Run xmonad with the settings you specify. No need to modify this.
 --
---xmproc <- spawnPipe "xmobar -x 0 /home/moorts/.xmobarrc"
-
 
 currentFg = orange
 currentBg = "black"
@@ -319,13 +317,13 @@ hiddenBg = "black"
 
 colorFg color = xmobarColor color "black"
 
-myPP = xmobarPP { ppHiddenNoWindows = wrap "" " "
-                , ppHidden = colorFg hiddenFg . wrap "" " "
-                , ppVisible = colorFg otherScreenFg . wrap "λ(" ")"
-                , ppCurrent = colorFg currentFg . wrap "λ(" ")"
+myPP = xmobarPP { ppHiddenNoWindows = wrap " " " "
+                , ppHidden = colorFg hiddenFg . wrap " " " "
+                , ppVisible = colorFg otherScreenFg . wrap " " " "
+                , ppCurrent = xmobarColor "black" blue . wrap " " " "
                 , ppLayout = const ""
                 , ppTitle = const ""
-                , ppWsSep = " "
+                , ppWsSep = ""
                 }
   
 myStatusBars host =
