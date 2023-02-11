@@ -49,7 +49,7 @@ myClickJustFocuses = False
 
 -- Width of the window border in pixels.
 --
-myBorderWidth   = 2
+myBorderWidth   = 1
 
 -- modMask lets you specify which modkey you want to use. The default
 -- is mod1Mask ("left alt").  You may also consider using mod3Mask
@@ -79,8 +79,8 @@ purple = "#732982"
 
 -- Border colors for unfocused and focused windows, respectively.
 --
-myNormalBorderColor  = blue
-myFocusedBorderColor = orange
+myNormalBorderColor  = "#2d2b55"
+myFocusedBorderColor = "#ff628c"
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -305,22 +305,23 @@ myStartupHook host = do
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 
-currentFg = orange
-currentBg = "black"
+currentFg = "black"
+-- currentBg = "#ff628c"
+currentBg = "#ff628c"
 
-otherScreenFg = blue
-otherScreenBg = "black"
+otherScreenFg = "black"
+otherScreenBg = "#baacff"
 
 --hiddenFg = currentFg
-hiddenFg = blue
-hiddenBg = "black"
+hiddenFg = currentBg
+hiddenBg = "#2d2b55"
 
 colorFg color = xmobarColor color "black"
 
-myPP = xmobarPP { ppHiddenNoWindows = wrap " " " "
-                , ppHidden = colorFg hiddenFg . wrap " " " "
-                , ppVisible = colorFg otherScreenFg . wrap " " " "
-                , ppCurrent = xmobarColor "black" blue . wrap " " " "
+myPP = xmobarPP { ppHiddenNoWindows = xmobarColor "white" hiddenBg . wrap " " " "
+                , ppHidden = xmobarColor hiddenFg hiddenBg . wrap " " " "
+                , ppVisible = xmobarColor otherScreenFg otherScreenBg . wrap " " " "
+                , ppCurrent = xmobarColor currentFg currentBg . wrap " " " "
                 , ppLayout = const ""
                 , ppTitle = const ""
                 , ppWsSep = ""

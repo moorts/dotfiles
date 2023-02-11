@@ -1,6 +1,6 @@
 Config { overrideRedirect = False
        , font     = "xft:FiraCode Nerd Font-10"
-       , bgColor  = "#000000"
+       , bgColor  = "#2d2b55"
        , fgColor  = "#f8f8f2"
        --, position = TopW L 90
        , position = Top --Static { xpos = 0, ypos = 0, width = 3440, height = 20}
@@ -49,5 +49,5 @@ Config { overrideRedirect = False
                     ]
        , sepChar = "%"
        , alignSep = "Γγ"
-       , template = "<icon=haskell_20.xpm/> %_XMONAD_LOG_0% Γγ <fc=#000000,#e40303></fc><fc=#000000,#e40303> %kbd% </fc><fc=#e40303,#ff8c00></fc><fc=#000000,#ff8c00> %cpu% </fc><fc=#ff8c00,#ffed00></fc><fc=#000000,#ffed00> %memory% </fc><fc=#ffed00,#008026></fc><fc=#000000,#008026> %battery% </fc><fc=#008026,#24408E></fc><fc=#000000,#24408e> %alsa:default:Master% </fc><fc=#24408e,#732982></fc><fc=#000000,#732982> %date% </fc><fc=#732982,#000000></fc> %traypad% "
+       , template = "<icon=haskell_20.xpm/> %_XMONAD_LOG_0% Γγ <fc=#2d2b55,#e40303></fc><fc=#000000,#e40303> %kbd% </fc><fc=#e40303,#ff8c00></fc><fc=#000000,#ff8c00> %cpu% </fc><fc=#ff8c00,#ffed00></fc><fc=#000000,#ffed00> %memory% </fc><fc=#ffed00,#008026></fc><fc=#000000,#008026> %battery% </fc><fc=#008026,#24408E></fc><fc=#000000,#24408e> %alsa:default:Master% </fc><fc=#24408e,#732982></fc><fc=#000000,#732982> %date% </fc><fc=#732982,#2d2b55></fc> %traypad% "
        }

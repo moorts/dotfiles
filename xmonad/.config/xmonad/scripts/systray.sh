@@ -10,7 +10,8 @@ trayer --edge top\
        --distance 4\
        --distancefrom right\
        --transparent true\
-       --tint black\
+       --alpha 0\
+       --tint 0x2d2b55\
        --widthtype request\
        --monitor 0\
        --monitor 1\

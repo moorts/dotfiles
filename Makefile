@@ -22,5 +22,8 @@ justqute:
 justzsh:
 	stow --verbose --target=$$HOME --restow zsh
 
+justoffline:
+	stow --verbose --target=$$HOME --restow offlineIMAP
+
 delete:
 	stow --verbose --target=$$HOME --delete /*
