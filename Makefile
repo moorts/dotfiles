@@ -1,6 +1,13 @@
 all:
 	stow --verbose --target=$$HOME --restow */
 
+xmonad:
+	stow --verbose --target=$$HOME --restow xmonad
+	stow --verbose --target=$$HOME --restow emacs
+	stow --verbose --target=$$HOME --restow zathura
+	stow --verbose --target=$$HOME --restow qutebrowser
+	stow --verbose --target=$$HOME --restow zsh
+
 justemacs:
 	stow --verbose --target=$$HOME --restow emacs
 

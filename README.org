@@ -1,0 +1,41 @@
+#+PROPERTY: header-args:shell :results none
+
+* Dotfiles
+
+** AUR Helper / Pamac
+#+begin_src shell
+sudo pacman -S pamac-gtk
+#+end_src
+** XMonad
+#+begin_src shell
+pamac build xmonad-git xmonad-contrib-git xmobar
+#+end_src
+** Shell
+
+*** ZSH
+Installing vi-mode plugin for ZSH
+
+#+begin_src shell
+  git clone https://github.com/jeffreytse/zsh-vi-mode \
+    /home/moorts/.oh-my-zsh/custom/plugins/zsh-vi-mode
+#+end_src
+*** Utilities
+
+- [[exe][https://the.exa.website]] - ls replacement
+- [[bat][https://github.com/sharkdp/bat]] - cat but fancier 
+
+** Browser
+
+Installing Qutebrowser
+
+#+begin_src shell
+  pamac build qutebrowser-git
+#+end_src
+
+** Misc
+#+begin_src sh
+  # Network Management 
+  pamac build NetworkManager network-manager-applet
+  # PDF Viewer
+  pamac build zathura zathura-pdf-mupdf tabbed-git
+#+end_src
