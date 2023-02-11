@@ -286,8 +286,8 @@ myLogHook = return ()
 -- By default, do nothing.
 
 myScreenConfigs = [
-  ("crimson", "xrandr --output DVI-D-0 --off --output HDMI-0 --mode 3440x1440 --pos 1920x0 --rotate normal --output DP-0 --off --output DP-1 --mode 1920x1080 --pos 0x180 --rotate normal --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off && feh --bg-fill ~/.config/xmonad/burningTree.jpg"),
-  ("carbon", "feh --bg-fill ~/.config/xmonad/burningTree.jpg")]
+  ("crimson", "xrandr --output DVI-D-0 --off --output HDMI-0 --mode 3440x1440 --pos 1920x0 --rotate normal --output DP-0 --off --output DP-1 --mode 1920x1080 --pos 0x180 --rotate normal --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off && feh --bg-fill ~/.config/xmonad/wallpaper3440x1440.png"),
+  ("carbon", "feh --bg-fill ~/.config/xmonad/wallpaper1920x1200.png")]
 
 myStartupHook host = do
   spawnOnce screenConfig
