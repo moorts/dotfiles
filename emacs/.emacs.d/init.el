@@ -15,6 +15,10 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+(use-package exec-path-from-shell
+  :config
+(exec-path-from-shell-initialize))
+
 (setq inhibit-startup-message t)
 
 (scroll-bar-mode -1)
@@ -79,7 +83,29 @@
 (use-package cuda-mode)
 
 (use-package haskell-mode
-  :bind(("C-c h" . (lambda () (interactive) (compile "source ~/.zshrc; stack build --fast")))))
+    :bind(("C-c h" . (lambda () (interactive) (compile "source ~/.zshrc; stack build --fast"))))
+    :config
+    (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+    (let ((my-stack-path (expand-file-name "~/.ghcup/bin")))
+    (setenv "PATH" (concat my-stack-path path-separator (getenv "PATH")))
+    (add-to-list 'exec-path my-stack-path))
+    (custom-set-variables '(haskell-process-type 'stack-ghci))
+  )
+
+  (use-package format-all
+    :hook
+    (haskell-mode . format-all-mode)
+:config
+;(add-hook 'haskell-mode 'format-all-mode)
+(add-hook 'format-all-mode-hook 'format-all-ensure-formatter)
+(add-to-list 'format-all-default-formatters '("Haskell" fourmolu)))
+
+(setq c-default-style "linux"
+          c-basic-offset 4)
+
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq indent-line-function 'insert-tab)
 
 (use-package vterm
   :config

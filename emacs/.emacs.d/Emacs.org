@@ -23,6 +23,12 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 #+end_src
+** Stuff
+#+begin_src emacs-lisp
+    (use-package exec-path-from-shell
+    :config
+  (exec-path-from-shell-initialize))
+#+end_src
 * Appearance
 ** Window Appearance
 
@@ -111,10 +117,43 @@ Remove scrollbar, enable line numbers, that type of thing.
   (use-package markdown-mode)
   (use-package cuda-mode)
 
-  (use-package haskell-mode
-    :bind(("C-c h" . (lambda () (interactive) (compile "source ~/.zshrc; stack build --fast")))))
 #+end_src
 
+*** Haskell Mode
+
+#+begin_src emacs-lisp
+      (use-package haskell-mode
+        :bind(("C-c h" . (lambda () (interactive) (compile "source ~/.zshrc; stack build --fast"))))
+        :config
+        (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+        (let ((my-stack-path (expand-file-name "~/.ghcup/bin")))
+        (setenv "PATH" (concat my-stack-path path-separator (getenv "PATH")))
+        (add-to-list 'exec-path my-stack-path))
+        (custom-set-variables '(haskell-process-type 'stack-ghci))
+      )
+
+      (use-package format-all
+        :hook
+        (haskell-mode . format-all-mode)
+    :config
+    ;(add-hook 'haskell-mode 'format-all-mode)
+    (add-hook 'format-all-mode-hook 'format-all-ensure-formatter)
+    (add-to-list 'format-all-default-formatters '("Haskell" fourmolu)))
+
+#+end_src
+
+*** Stuff for C++
+#+begin_src emacs-lisp
+(setq c-default-style "linux"
+          c-basic-offset 4)
+#+end_src
+
+** Indentation
+#+begin_src emacs-lisp
+  (setq-default indent-tabs-mode nil)
+  (setq-default tab-width 4)
+  (setq indent-line-function 'insert-tab)
+#+end_src
 * Terminals
 ** Eshell
 ** Vterm
