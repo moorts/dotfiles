@@ -39,3 +39,10 @@ Installing Qutebrowser
   # PDF Viewer
   pamac build zathura zathura-pdf-mupdf tabbed-git
 #+end_src
+
+** Zotero
+I use better bibtex for exporting my entire Zotero library into a giant bibtex file and ZotFile for automatically renaming files.
++ [[https://retorque.re/zotero-better-bibtex/][Better BibTeX]]
++ [[zotfile.com][ZotFile]]
+  Change rename template to ~{:b}~, select all and execute rename and move from context menu.
+
