@@ -35,5 +35,8 @@ justoffline:
 justxres:
 	stow --verbose --target=$$HOME --restow xresources
 
+justdwm:
+	stow --verbose --target=$$HOME --restow dwm
+
 delete:
 	stow --verbose --target=$$HOME --delete /*
