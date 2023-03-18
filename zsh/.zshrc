@@ -131,5 +131,6 @@ path+=('/opt/calibre/bin')
 path+=('/home/moorts/depot_tools')
 path+=('/opt/nvidia/nsight-systems/2023.1.1/bin/')
 path+=('/home/moorts/bin')
+path+=('/usr/local/NVIDIA-Nsight-Compute/')
 
 export PATH

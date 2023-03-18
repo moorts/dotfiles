@@ -20,6 +20,8 @@ c.aliases = {
     "Zotero": "hint links userscript qute-zotero"
 }
 
-config.source("gruvbox.py")
+#config.source("gruvbox.py")
 config.source("qutenyan/nyan.py")
+
+c.colors.statusbar.normal.bg = "#2d2b55"
 
