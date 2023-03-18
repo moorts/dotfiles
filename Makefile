@@ -32,5 +32,8 @@ justzsh:
 justoffline:
 	stow --verbose --target=$$HOME --restow offlineIMAP
 
+justxres:
+	stow --verbose --target=$$HOME --restow xresources
+
 delete:
 	stow --verbose --target=$$HOME --delete /*
