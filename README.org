@@ -45,4 +45,3 @@ I use better bibtex for exporting my entire Zotero library into a giant bibtex f
 + [[https://retorque.re/zotero-better-bibtex/][Better BibTeX]]
 + [[zotfile.com][ZotFile]]
   Change rename template to ~{:b}~, select all and execute rename and move from context menu.
-

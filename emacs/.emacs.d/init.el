@@ -36,7 +36,8 @@
 (setq display-line-numbers-type 'relative)
 
 ;; Disable line numbers for Some modes
-(dolist (mode '(org-mode-hook
+(dolist (mode '(pdf-view-mode
+                org-mode-hook
                 term-mode-hook
                 shell-mode-hook
                 vterm-mode-hook
@@ -48,6 +49,10 @@
 (global-hl-line-mode 1)
 (set-face-background 'hl-line nil)
 (set-face-attribute hl-line-face nil :underline t)
+
+(dolist (mode '(pdf-view-mode
+                vterm-mode-hook))
+  (add-hook mode (lambda () (set-face-attribute hl-line-face nil :underline nil))))
 
 ;; (use-package gruvbox-theme
   ;;   :config (load-theme 'gruvbox-dark-hard t))
@@ -61,7 +66,10 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-shades-of-purple t)
+  (load-theme 'my-shades-of-purple t)
+
+  ;; Overwrite begin/end line color
+  ;;(custom-set-faces
 
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
@@ -73,6 +81,7 @@
   :config (nyan-mode t))
 
 (use-package rust-mode
+    :bind(("C-c r" . rust-run))
     :config
     (add-hook 'rust-mode-hook
        (lambda () (setq indent-tabs-mode nil))))
@@ -117,22 +126,25 @@
   (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
 
 (use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-i-jump nil)
-  :config
-  (evil-mode 1)
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-C-i-jump nil)
+    :config
+    (evil-mode 1)
 
-  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-  (evil-global-set-key 'motion "k" 'evil-previous-visual-line))
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line))
 
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
+  (use-package evil-collection
+    :after evil
+    :ensure t
+    :config
+    (evil-collection-init))
+  (use-package evil-numbers)
+(global-set-key (kbd "C-c +") 'evil-numbers/inc-at-pt)
+(global-set-key (kbd "C-c -") 'evil-numbers/dec-at-pt)
 
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
@@ -253,6 +265,11 @@
   :hook (org-mode . efs/org-mode-setup)
   :config
   (setq org-ellipsis " ▾")
+  (setq org-agenda-files '("~/agenda"))
+  (setq org-agenda-include-diary nil)
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
   (efs/org-font-setup))
 
 (defun efs/org-font-setup ()
@@ -295,13 +312,66 @@
 
 (setq org-confirm-babel-evaluate nil)
 
+;; (use-package openwith
+;;   :config
+;;   (openwith-mode t)
+;;   (setq openwith-associations '(("\\.pdf\\'" "/home/moorts/.config/zathura/za_tabbed.sh" (file)))))
+
+;; PDF Tools
+(use-package pdf-tools
+  :config (pdf-tools-install))
+
+(use-package org-roam
+:config
+  (setq org-roam-directory (file-truename "~/org-roam"))
+  (org-roam-db-autosync-mode)
+  (setq org-roam-capture-templates
+    '(("m" "main" plain
+      "%?"
+      :if-new (file+head "main/${slug}.org"
+                          "#+title: ${title}\n")
+      :immediate-finish t
+      :unnarrowed t)
+      ("r" "reference" plain "%?"
+      :if-new
+      (file+head "reference/${title}.org" "#+title: ${title}\n")
+      :immediate-finish t
+      :unnarrowed t)
+      ("a" "article" plain "%?"
+      :if-new
+      (file+head "articles/${title}.org" "#+title: ${title}\n#+filetags: :article:\n")
+      :immediate-finish t
+      :unnarrowed t)))
+  (cl-defmethod org-roam-node-type ((node org-roam-node))
+    "Return the TYPE of NODE."
+    (condition-case nil
+        (file-name-nondirectory
+        (directory-file-name
+          (file-name-directory
+          (file-relative-name (org-roam-node-file node) org-roam-directory))))
+      (error "")))
+  (setq org-roam-node-display-template
+        (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag))))
+
+(use-package ivy-bibtex
+  :config
+  (setq bibtex-completion-bibliography
+        (file-truename "~/org-roam/library.bib"))
+  (setq bibtex-completion-pdf-field "file")
+  :bind
+  (("C-; b" . ivy-bibtex)))
+
+(use-package org-roam-bibtex
+  :after org-roam
+  :config (org-roam-bibtex-mode))
+
 ;; This is needed as of Org 9.2
 (require 'org-tempo)
 
 (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
-(add-to-list 'org-structure-template-alist '("cpp . "src C"))
+(add-to-list 'org-structure-template-alist '("cpp" . "src C++"))
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -329,14 +399,9 @@
       auto-save-interval 200            ; number of keystrokes between auto-saves (default: 300)
       )
 
-(use-package openwith
-  :config
-  (openwith-mode t)
-  (setq openwith-associations '(("\\.pdf\\'" "/home/moorts/.config/zathura/za_tabbed.sh" (file)))))
-
 (use-package pass)
 
-(autoload 'notmuch "notmuch" "notmuch mail" t)
+;; (autoload 'notmuch "notmuch" "notmuch mail" t)
 
 ;; Automatically tangle our Emacs.org config file when we save it
 (defun efs/org-babel-tangle-config ()
