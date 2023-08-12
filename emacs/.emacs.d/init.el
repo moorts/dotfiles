@@ -55,24 +55,36 @@
   (add-hook mode (lambda () (set-face-attribute hl-line-face nil :underline nil))))
 
 ;; (use-package gruvbox-theme
-  ;;   :config (load-theme 'gruvbox-dark-hard t))
-  ;; (use-package shades-of-purple-theme
-  ;;   :config (load-theme 'shades-of-purple t))
+ ;;   :config (load-theme 'gruvbox-dark-hard t))
+ ;; (use-package shades-of-purple-theme
+ ;;   :config (load-theme 'shades-of-purple t))
 
-  ; Use Doom Themes
+ ; Use Doom Themes
 (use-package doom-themes
-  :ensure t
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'my-shades-of-purple t)
+ :ensure t
+ :config
+ ; Global settings (defaults)
+ (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+     doom-themes-enable-italic t) ; if nil, italics is universally disabled
+ (load-theme 'my-shades-of-purple t)
 
-  ;; Overwrite begin/end line color
-  ;;(custom-set-faces
+ ; Overwrite begin/end line color
+ ;; (custom-set-faces
 
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+ ; Corrects (and improves) org-mode's native fontification.
+ (doom-themes-org-config))
+  ;; (use-package haki-theme
+  ;; :config
+  ;; (setq haki-region "#2e8b6d"
+  ;; ;; If you skip setting this, it will use 'default' font.
+  ;; haki-heading-font "Comic Mono"
+  ;; haki-sans-font "Iosevka Comfy Motion"
+  ;; haki-title-font "Maple Mono"
+  ;; haki-link-font "Maple Mono" ;; or Maple Mono looks good
+  ;; haki-code-font "Maple Mono") ;; inline code/verbatim (org,markdown..)
+  ;; ;(add-hook 'post-command-hook #'haki-modal-mode-line)
+
+  ;; (load-theme 'haki t))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -90,6 +102,24 @@
 (use-package lua-mode)
 (use-package markdown-mode)
 (use-package cuda-mode)
+
+(use-package tex
+  :ensure auctex
+  :config
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil)
+  ;; to use pdfview with auctex
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+      TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
+      TeX-source-correlate-start-server t) ;; not sure if last line is neccessary
+
+  (defun my-TeX-revert-document-buffer (file)
+  (TeX-revert-document-buffer file)
+  (pdf-outline))
+
+  ;; Add custom function to the TeX compilation hook
+  (add-hook 'TeX-after-compilation-finished-functions #'my-TeX-revert-document-buffer))
 
 (use-package haskell-mode
     :bind(("C-c h" . (lambda () (interactive) (compile "source ~/.zshrc; stack build --fast"))))
@@ -244,17 +274,17 @@
   ;:custom
   ;(magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
-(defvar efs/default-font-size 100)
-(defvar efs/default-variable-font-size 100)
+;(defvar efs/default-font-size 100)
+;(defvar efs/default-variable-font-size 100)
 
-(set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
+;(set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
 
 
 ;; Set the fixed pitch face
-(set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
+;(set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
 
 ;; Set the variable pitch face
-(set-face-attribute 'variable-pitch nil :font "Cantarell" :height efs/default-variable-font-size :weight 'regular)
+;(set-face-attribute 'variable-pitch nil :font "Cantarell" :height efs/default-variable-font-size :weight 'regular)
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
@@ -412,16 +442,3 @@
       (org-babel-tangle))))
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(doom-themes yaml-mode which-key vterm use-package rust-mode rainbow-delimiters perspective pass org-bullets openwith nyan-mode markdown-mode magit lua-mode ivy-rich hydra helpful haskell-mode gruvbox-theme general evil-collection cuda-mode counsel-projectile)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
