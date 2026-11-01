@@ -1,0 +1,5 @@
+{{- if eq .chezmoi.hostname "violet" }}
+{{- include "dot_config/hypr/hyprland_violet.lua" -}}
+{{- else if eq .chezmoi.hostname "carbon" }}
+{{- include "dot_config/hypr/hyprland_carbon.lua" -}}
+{{- end }}
