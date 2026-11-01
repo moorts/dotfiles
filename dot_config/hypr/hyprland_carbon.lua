@@ -10,7 +10,8 @@ end)
 hl.config({
 	input = {
 		-- empty inherits XKB_DEFAULT_LAYOUT (libxkbcommon), falls back to "us"
-		kb_layout = "",
+		kb_layout = "us,de",
+        kb_options = "ctrl:nocaps,grp:alt_shift_toggle",
 		numlock_by_default = true,
 		follow_mouse = 0,
 		-- dms/input.lua is required later and wins per key
